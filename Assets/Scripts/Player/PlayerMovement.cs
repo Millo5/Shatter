@@ -10,6 +10,8 @@ namespace Player
         private readonly PlayerInput playerInput;
 
         private float jumpCooldown = 0f;
+        private float jumpBonusGravity = 0f;
+        private float bonusGravityScaling = 0.12f;
         
         public PlayerMovement(PlayerController playerController)
         {
@@ -52,7 +54,7 @@ namespace Player
         {
             Vector3 forward = controller.transform.forward;
             Vector3 right = controller.transform.right;
-            
+            jumpBonusGravity = 0;
             Vector3 move = (forward * playerInput.Move.y + right * playerInput.Move.x) * 5f;
             Vector3 velocityChange = (move - rigidbody.linearVelocity) * 300f;
                 
@@ -83,6 +85,10 @@ namespace Player
             if (similarity < 0) force = 4f;
             if (similarity > move.magnitude) force = 0.2f;
             rigidbody.AddForce(move.normalized * (force * Time.fixedDeltaTime * 300f), ForceMode.Acceleration);
+            Vector3 extragrav = new Vector3(0f,-jumpBonusGravity,0f);
+            jumpBonusGravity += bonusGravityScaling;
+            jumpBonusGravity = Mathf.Clamp(jumpBonusGravity, 0, 2f);
+            rigidbody.AddForce(extragrav, ForceMode.Acceleration);
                 
             
             if (rigidbody.linearVelocity.y > 0 && !playerInput.Jump)
