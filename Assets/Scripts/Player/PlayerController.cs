@@ -34,7 +34,7 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         Collider[] points = new Collider[8];
-        int hit = Physics.OverlapSphereNonAlloc(transform.position + Vector3.up * 0.1f, 0.22f, points);
+        int hit = Physics.OverlapSphereNonAlloc(transform.position + Vector3.up * 0.2f, 0.22f, points);
         isGrounded = false; 
         for (int i = 0; i < hit; i++)
         {

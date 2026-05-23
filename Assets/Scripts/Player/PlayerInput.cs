@@ -20,13 +20,15 @@ namespace Player
 
         public Vector2 Move { get; private set; }
         public bool Jump { get; private set; }
+        public bool JumpPressed { get; private set; }
         public Vector2 Look { get; private set; }
 
         public void Update()
         {
             Move = moveAction.ReadValue<Vector2>();
-            Jump = jumpAction.ReadValue<float>() > 0.5f;
             Look = lookAction.ReadValue<Vector2>();
+            JumpPressed = jumpAction.WasPressedThisFrame();
+            Jump = jumpAction.IsPressed();
         }
 
 

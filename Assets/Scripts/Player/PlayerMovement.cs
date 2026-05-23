@@ -10,6 +10,8 @@ namespace Player
         private readonly PlayerInput playerInput;
 
         private float jumpCooldown = 0f;
+        private int jumpPressed = 0;
+        private int landedGrace = 0;
         
         public PlayerMovement(PlayerController playerController)
         {
@@ -21,31 +23,43 @@ namespace Player
         public void Update()
         {
             if (jumpCooldown > 0f) jumpCooldown -= Time.deltaTime;
+            if (playerInput.JumpPressed) jumpPressed = 7;
             
             Debug.DrawRay(controller.transform.position, Vector3.down * 0.5f, controller.IsGrounded ? Color.green : Color.red);
             Debug.DrawRay(controller.transform.position, controller.transform.forward * 0.5f, Color.blue);
             
             Vector3 forward = controller.transform.forward;
             Vector3 right = controller.transform.right;
-            Vector3 move = (forward * playerInput.Move.y + right * playerInput.Move.x) * 5f;
+            Vector3 move = (forward * playerInput.Move.y + right * playerInput.Move.x) * 8f;
             Debug.DrawRay(controller.transform.position, move, Color.yellow); // Target velocity
             
             Debug.DrawRay(controller.transform.position, rigidbody.linearVelocity, Color.aquamarine);
-                
+            
         }
 
         public void FixedUpdate()
         {
+            if (jumpPressed > 0) jumpPressed--;
+            if (controller.IsGrounded) landedGrace = 7;
+            else if (landedGrace > 0) landedGrace--;
+            
             Vector3 forward = controller.transform.forward;
             Vector3 right = controller.transform.right;
             
             if (controller.IsGrounded) groundMovement();
             else airMovement();
             
-            if (playerInput.Jump && controller.IsGrounded)
+            if (landedGrace > 0 && jumpPressed > 0 && jumpCooldown <= 0f)
             {
-                rigidbody.AddForce(Vector3.up * 2f, ForceMode.Impulse);
+                Vector3 vel = rigidbody.linearVelocity;
+                vel.y = 0;
+                rigidbody.linearVelocity = vel;
+                rigidbody.AddForce(Vector3.up * 5f, ForceMode.Impulse);
+
+                jumpPressed = 0;
+                jumpCooldown = 0.1f;
             }
+            
         }
 
         private void groundMovement()
@@ -53,20 +67,10 @@ namespace Player
             Vector3 forward = controller.transform.forward;
             Vector3 right = controller.transform.right;
             
-            Vector3 move = (forward * playerInput.Move.y + right * playerInput.Move.x) * 5f;
+            Vector3 move = (forward * playerInput.Move.y + right * playerInput.Move.x) * 8f;
             Vector3 velocityChange = (move - rigidbody.linearVelocity) * 300f;
                 
             rigidbody.AddForce(velocityChange * Time.fixedDeltaTime, ForceMode.Acceleration);
-
-            if (playerInput.Jump && jumpCooldown <= 0f)
-            {
-                Vector3 vel = rigidbody.linearVelocity;
-                vel.y = 0;
-                rigidbody.linearVelocity = vel;
-                rigidbody.AddForce(Vector3.up * 2f, ForceMode.Impulse);
-                
-                jumpCooldown = 0.1f;
-            }
         }
         
         private void airMovement()
@@ -87,7 +91,7 @@ namespace Player
             
             if (rigidbody.linearVelocity.y > 0 && !playerInput.Jump)
             {
-                rigidbody.AddForce(Vector3.down * (10f * Time.fixedDeltaTime), ForceMode.Acceleration);
+                rigidbody.AddForce(Physics.gravity, ForceMode.Acceleration);
             }
         }
         

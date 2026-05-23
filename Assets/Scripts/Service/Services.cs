@@ -3,7 +3,7 @@
     public class Services
     {
         
-        public static SettingsService Settings = new();
+        public static readonly SettingsService Settings = new();
         
     }
 }

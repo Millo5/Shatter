@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 4ae7fd3750f144143931bba59bacf086, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -699,6 +699,7 @@ GameObject:
   - component: {fileID: 1374363891}
   - component: {fileID: 1374363890}
   - component: {fileID: 1374363894}
+  - component: {fileID: 1374363895}
   m_Layer: 0
   m_Name: Cube (1)
   m_TagString: Untagged
@@ -813,6 +814,33 @@ MonoBehaviour:
   IsGround: 1
   IsMagnetic: 0
   ISBreakable: 0
+--- !u!54 &1374363895
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1374363889}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &1497917090
 GameObject:
   m_ObjectHideFlags: 0
@@ -854,7 +882,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1497917090}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 0294b74ce4ec17041b20ce1f773fbde0, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
